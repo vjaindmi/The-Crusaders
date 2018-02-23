@@ -59,7 +59,7 @@ extension BaseViewController: UITableViewDataSource {
       cell?.layer.cornerRadius = 5.0
       cell?.textLabel?.text = array[indexPath.row] as? String
       cell?.textLabel?.textColor = .white
-      cell?.accessoryType = .disclosureIndicator
+        cell?.accessoryType = (indexPath.row>5) ? .disclosureIndicator : .none
     }
     cell?.backgroundColor = .black
     cell?.selectionStyle = .none
@@ -74,6 +74,17 @@ extension BaseViewController: UITableViewDataSource {
                  numberOfRowsInSection section: Int) -> Int {
     return array.count
   }
+    func requestToChangeConfigureAction(status:String){
+        let requestURLString = Constant.baseURL + "?action=" + status
+        
+        var request = URLRequest(url: URL(string: requestURLString)!)
+        request.httpMethod = "GET"
+        let session = URLSession.shared
+        
+        session.dataTask(with: request) {data, response, err in
+            print("Entered the completionHandler")
+            }.resume()
+    }
 }
 
 extension BaseViewController: UITableViewDelegate {
@@ -85,16 +96,22 @@ extension BaseViewController: UITableViewDelegate {
     
     switch indexPath.row {
     case 0:
+        self.requestToChangeConfigureAction(status: "SHUTDOWN")
       break
     case 1:
+        self.requestToChangeConfigureAction(status: "REBOOT")
       break
     case 2:
+        self.requestToChangeConfigureAction(status: "RESTART")
       break
     case 3:
+        self.requestToChangeConfigureAction(status: "MONITORON")
       break
     case 4:
+        self.requestToChangeConfigureAction(status: "MONITOROFF")
       break
     case 5:
+        self.requestToChangeConfigureAction(status: "REFRESH")
       break
     case 6:
       let viewcontroller = storyboard.instantiateViewController(withIdentifier: "BrigtnessControlView")

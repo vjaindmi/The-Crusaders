@@ -26,23 +26,26 @@ class BrigtnessControlViewController: UIViewController {
     func configureDefaultSlider() {
     slider.minimumValue = 0
     slider.maximumValue = 200
-    slider.value = 0
+    slider.value = 100
     slider.isContinuous = true
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
   @IBAction func sliderAction(_ sender: UISlider) {
     slider.value = sender.value
   }
   
   @IBAction func saveButtonAction(_ sender: Any) {
-    
+      self.requestToChangeConfigureAction(status: "BRIGHTNESS")
   }
+    func requestToChangeConfigureAction(status:String){
+        let requestURLString = Constant.baseURL + "?action=" + status + "&value=" + "\(Int(self.slider.value))"
+        
+        var request = URLRequest(url: URL(string: requestURLString)!)
+        request.httpMethod = "GET"
+        let session = URLSession.shared
+        
+        session.dataTask(with: request) {data, response, err in
+            print("Entered the completionHandler")
+
+            }.resume()
+    }
 }
