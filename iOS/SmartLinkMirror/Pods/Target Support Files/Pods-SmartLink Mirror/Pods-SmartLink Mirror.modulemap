@@ -1,0 +1,6 @@
+framework module Pods_SmartLink_Mirror {
+  umbrella header "Pods-SmartLink Mirror-umbrella.h"
+
+  export *
+  module * { export * }
+}
